@@ -11,6 +11,12 @@ CREATE TABLE users (
     email VARCHAR(40), 
     CONSTRAINT PK_username PRIMARY KEY (username));
 
+CREATE TABLE notes (
+    noteid          int AUTO_INCREMENT NOT NULL,
+    dateCreated     DateTime NOT NULL,
+    contents        NVARCHAR(1000) NOT NULL,
+    PRIMARY KEY (noteid));
+
 INSERT INTO users(username, password)
 VALUES("admin","password");
 COMMIT;

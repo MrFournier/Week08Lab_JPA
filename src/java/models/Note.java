@@ -11,4 +11,34 @@ package models;
  */
 public class Note {
     
+    // Attributes
+    public int noteid;
+    public java.util.Date dateCreated;
+    public String content;
+    
+    public Note() {
+        
+    }
+    
+    public Note(int noteid, String content, java.util.Date dateCreated) {
+        this.noteid = noteid;
+        this.content = content;
+        this.dateCreated = dateCreated;
+    }
+
+    public String getContent() {
+        return content;
+    }
+    
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
+    public java.util.Date getDateCreated() {
+        return dateCreated;
+    }
+    
+    public int getNoteId() {
+        return noteid;
+    }
 }
