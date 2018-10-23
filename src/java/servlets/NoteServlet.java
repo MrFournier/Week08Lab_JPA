@@ -5,12 +5,16 @@
  */
 package servlets;
 
+import database.NotesDBException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.NoteServices;
 
 /**
  *
@@ -30,6 +34,14 @@ public class NoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        NoteServices ns = new NoteServices();
+        
+        try {
+            request.setAttribute("notes", ns.getAll());
+        } catch (NotesDBException ex) {
+            Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getServletContext().getRequestDispatcher("/WEB-INF/note.jsp").forward(request, response);
     }
 
     /**
