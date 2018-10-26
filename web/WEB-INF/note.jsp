@@ -20,14 +20,16 @@
                 <th>Contents</th>
             </tr>
             <c:forEach var="note" notes="${notes}">
-                <form action="" method="" >
+                <form action="note?delete" method="POST" >
                     <tr>
                         <td>${note.noteId}</td>
                         <td>${note.dateCreated}</td>
                         <td>${note.content}</td>
-                        <td><button type="submit" >Delete</button></td>
-                        <td><button>Edit</button></td>
+                        <td><button type="submit" value="${note.noteId}">Delete</button></td>
                     </tr>
+                </form>
+                <form action="" method="">
+                    <td><button type="submit" value="">Edit</button></td>
                 </form>
             </c:forEach>
         </table>
