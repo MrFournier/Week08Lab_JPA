@@ -36,10 +36,18 @@ public class NoteServlet extends HttpServlet {
         
         NoteServices ns = new NoteServices();
         
-        try {
-            request.setAttribute("notes", ns.getAll());
-        } catch (NotesDBException ex) {
-            Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        if(request.getParameter("edit") != null){
+            try {
+                request.setAttribute("selectedNote", ns.get(Integer.parseInt(request.getParameter("noteToEdit"))));
+            } catch (NotesDBException ex) {
+                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                request.setAttribute("notes", ns.getAll());
+            } catch (NotesDBException ex) {
+                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         getServletContext().getRequestDispatcher("/WEB-INF/note.jsp").forward(request, response);
     }
