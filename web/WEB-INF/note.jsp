@@ -23,24 +23,24 @@
                         <th>Contents</th>
                     </tr>
                     <c:forEach var="note" items="${notes}" >
-                        <form action="note?delete" method="POST" >
-                            <tr>
-                                <td>${note.noteId}</td>
-                                <td>${note.dateCreated}</td>
-                                <td>${note.content}</td>
-                                <td><button type="submit" name="noteToDelete" value="${note.noteId}">Delete</button></td>
-                            </tr>
-                        </form>
-                        <form action="note?edit" method="GET">
-                            <td><button type="submit" name="noteToEdit" value="${note.noteId}">Edit</button></td>
-                        </form>
+                        <tr>
+                            <form action="note?delete" method="POST" >
+                                    <td>${note.noteid}</td>
+                                    <td>${note.dateCreated}</td>
+                                    <td>${note.contents}</td>
+                                    <td><button type="submit" name="noteToDelete" value="${note.noteid}">Delete</button></td>
+                            </form>
+                            <form action="note?edit" method="POST">
+                                <td><button type="submit" name="noteToEdit" value="${note.noteid}">Edit</button></td>
+                            </form>
+                        </tr>
                     </c:forEach>
                 </table>
             </c:when>
-            <c:when test="">
+            <c:when test="${selectedNote != null}">
                 <form action="note?save" method="POST" >
-                    <input type="hidden" value="${selectedNote.noteId}" >
-                    <textarea name="oldNoteBody" rows="5" columns="50">
+                    <input type="hidden" name="upNoteId" value="${selectedNote.noteid}" >
+                    <textarea name="upNoteBody" rows="5" columns="50">
                         ${selectedNote.contents}
                     </textarea>
                     <input type="submit" value="save">
@@ -49,7 +49,7 @@
         </c:choose>
         
         <h1>Add Note</h1>
-        <form action="" method="POST">
+        <form action="note?add" method="POST">
             <textarea name="newNoteBody" rows="5" columns="50">
                 
             </textarea>

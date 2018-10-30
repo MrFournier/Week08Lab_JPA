@@ -36,19 +36,19 @@ public class NoteServlet extends HttpServlet {
         
         NoteServices ns = new NoteServices();
         
-        if(request.getParameter("edit") != null){
-            try {
-                request.setAttribute("selectedNote", ns.get(Integer.parseInt(request.getParameter("noteToEdit"))));
-            } catch (NotesDBException ex) {
-                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
+//        if(request.getParameter("edit") != null){
+//            try {
+//                request.setAttribute("selectedNote", ns.get(Integer.parseInt(request.getParameter("noteToEdit"))));
+//            } catch (NotesDBException ex) {
+//                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } else {
             try {
                 request.setAttribute("notes", ns.getAll());
             } catch (NotesDBException ex) {
                 Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        //}
         getServletContext().getRequestDispatcher("/WEB-INF/note.jsp").forward(request, response);
     }
 
@@ -64,6 +64,52 @@ public class NoteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        int noteId;
+        String contents;
         
+        NoteServices ns = new NoteServices();
+        
+        if(request.getParameter("save") != null){
+            noteId = Integer.parseInt(request.getParameter("upNoteId"));
+            
+            contents = request.getParameter("upNoteBody");
+            
+            try {
+                ns.update(noteId, contents);
+            } catch (NotesDBException ex) {
+                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if(request.getParameter("delete") != null) {
+            
+            noteId = Integer.parseInt(request.getParameter("noteToDelete"));
+            
+            try {
+                ns.delete(noteId);
+            } catch (NotesDBException ex) {
+                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if(request.getParameter("add") != null) {
+            contents = request.getParameter("newNoteBody");
+            
+            try {
+                ns.insert(contents);
+            } catch (NotesDBException ex) {
+                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if(request.getParameter("edit") != null){
+            try {
+                request.setAttribute("selectedNote", ns.get(Integer.parseInt(request.getParameter("noteToEdit"))));
+            } catch (NotesDBException ex) {
+                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        try {
+            request.setAttribute("notes", ns.getAll());
+        } catch (NotesDBException ex) {
+            Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/note.jsp").forward(request, response);
     }
 }
